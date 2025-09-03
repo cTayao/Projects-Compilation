@@ -1,0 +1,163 @@
+body{
+    margin: 0;
+    background-color: #ffeecb;
+;
+    /*border: 2px, solid red;*/
+}
+
+#header-area{
+    margin: auto;
+    width: 100%;
+    height: 75px;
+}
+
+/*NAVIGATION BAR*/
+.header{
+    display:flex;
+    justify-content: center;
+    align-items: center;
+
+
+    margin: auto;
+    width: 100%;
+    height: 75px;
+    background-color: #a68768;
+    
+    border-bottom: 3px;
+    border-bottom-style: solid;
+    border-color: #806448;;
+
+    box-shadow: 0px 0px 5px;
+
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 100;
+
+
+}
+
+/*NAVIGATION TITLE*/
+#title{
+    
+    color: #ffe7ce;
+    text-align:center;
+    font-family: "consolas", sans-serif;
+    font-size:40px;
+
+    text-shadow: 3px 3px 5px #45311c;
+
+
+}
+
+
+/*UPLOAD CONTAINER*/
+.button-box{
+    width: 60px;
+    height: 60px;
+
+    position: fixed;
+    right: 10px;
+    bottom: 10px;
+
+}
+
+/*UPLOAD BUTTON*/
+#upload{
+    margin: 0;
+    width: 100%;
+    height: 100%;
+
+    text-align: center;
+    background-color: #f8e5be;
+    
+    border-style: solid;
+    border-width: 4px;
+    border-color: #806448;
+
+    border-top-left-radius: 15px;
+    border-bottom-left-radius: 15px;
+    
+
+}
+
+#upload:hover{ 
+    text-align: center;
+    background-color: #fff6e4;
+    /*
+    add script to change icon  to bouncing
+    */
+}
+
+#upload:active{
+    background-color: #f7e0b0;
+}
+
+/*UPLOAD SYMBOL*/
+.fa-plus{
+    color: #806448;
+}
+
+/*GRID LAYOUT*/
+.grid{
+    display: grid;
+    justify-content: center;
+
+    margin-top: 20px;
+    margin-left: 5vh;
+    margin-right: 5vh;
+
+    grid-template-columns: repeat(auto-fit, min(350px));
+    grid-auto-rows: 250px;
+    grid-gap: 30px 50px;
+
+    justify-items: center;
+    align-items: center;
+
+}
+
+/*GRID ITEMS*/
+.item{
+    display: flex;
+    flex-direction: column;
+
+    align-items: center;
+    justify-content: end;
+
+
+    border: 2px solid black;
+    border-top-left-radius: 10px;
+    border-top-right-radius: 10px;
+
+    background-color: white;
+    box-shadow: 0 0 10px;
+
+    width: 100%;
+    height: 100%;
+
+    overflow: hidden;
+
+}
+
+.thumbnail{
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    border: 2px solid tomato;
+
+}
+
+.week{
+    margin-top: 0px;
+
+    align-content: center;
+    text-align: center;
+
+    width: 100%;
+    height: 20%;
+    border: 2px solid tomato;
+    
+}
+
+
+
