@@ -24,21 +24,82 @@
     </div>
 
     <div class="grid">
-        <div class="item item-1">
+        <!-- <div class="item item-1">
             <img class="thumbnail" src="" alt="project">
-            <div class="week">WEEK #</div>
-
-        </div>
-        <div class="item item-2">2</div>
-        <div class="item item-3">3</div>
-        <div class="item item-4">4</div>
-        <div class="item item-5">5</div>
-        <div class="item item-6">6</div>
+            <div class="project">PLACEHOLDER TITLE</div>
+            <div class="date">0000-00-00</div>
+            
+        </div> -->
 
     </div>
 
+    <div class="upload-box">
+        <div id="upload-content">
+            <div id="upload-header">
+                <button id="minimize">
+                    <i class="fa-solid fa-minus"></i>
+                </button>
+                <div id="upload-title">
+                    UPLOAD
+                </div>
+            </div>
+            
+            <form id="grid-form" action="" method="GET" enctype="multipart/form-data">
 
+                <div class="image-form">
+                    <label class="label image-label" for="image_form">
+                        <img id="imgThumbnail" src="" alt="">
+                        <div>
+                            <i class="fa-solid fa-cloud-arrow-up fa-lg fa-2xl"></i>
+                            <p>Upload Thumbnail</p>
+                        </div>
+                    </label>
+                    <input type="file" id="image_form" accept="image/png, image/jpeg" required><br>
+                </div>
+                
+                <div id="grid-title">
+                    <div class="title-form">
+                        <label class="label " for="title_form">Project Title</label><br>
+                        <input type="text" id="title_form" placeholder="Compilation Website" required>
+                    </div>
     
     
+                    <div class="github-form">
+                        <label class="label" for="github_form">Github URL</label><br>
+                        <input type="url" id="github_form" placeholder="github.com/ctayao/project-here" required>
+                    </div>
+                </div>
+
+                <div id="grid-date">
+                        <div class="created-form">
+                            <label class="label">Date Created</label>
+                            <div class="date-select">
+                                <select id="created_month" required></select>
+                                <select id="created_day" required></select>
+                                <select id="created_year" required></select>
+                            </div>
+                        </div>
+
+                        <div class="completed-form">
+                            <label class="label">Date Completed</label>
+                            <div class="date-select">
+                                <select id="completed_month" required></select>
+                                <select id="completed_day" required></select>
+                                <select id="completed_year" required></select>
+                            </div>
+                        </div>
+                </div>
+
+                <div class="submit">
+                    <button type="submit" id="submit">
+                        <i class="fa-solid fa-check fa-xl"></i>
+                    </button>
+                </div>
+
+            </form>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
 </body>
 </html>

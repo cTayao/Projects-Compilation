@@ -1,0 +1,17 @@
+[
+  {
+    "id": 1,
+    "title": "Portfolio Website",
+    "date": "2025-08-28",
+    "image": "thumbnails/placeholder.png",
+    "link": "https://github.com/cTayao/Projects-Compilation"
+  },
+  {
+    "id": 2,
+    "title": "Physic Simulator",
+    "date": "2025-09-04",
+    "image": "thumbnails/placeholder.png",
+    "link": ""
+  }
+
+]
