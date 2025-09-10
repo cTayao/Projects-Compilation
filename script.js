@@ -1,45 +1,50 @@
 
 //LOAD THE DATA IN JSON//
-fetch("projects.json")
-    .then(response => response.json())
-    .then(projects => {
-        console.log(projects);
-
-        projects.forEach(project => {
-            console.log(project.title);
-
-            const newItem = document.createElement("a");
-            newItem.classList.add(`item`, `item-${project.id}`);
-            newItem.href = project.link;
-            newItem.target = "_blank";
-
-            const thumbnailContainer = document.createElement("div");
-            thumbnailContainer.classList.add("thumbnail-container");
-
-            const thumbnail = document.createElement("img");
-            thumbnail.classList.add("thumbnail");
-            thumbnail.src = project.image || "";
-            thumbnail.alt = project.title;
-
-            thumbnailContainer.appendChild(thumbnail);
-
-            const projectLabel = document.createElement("div");
-            projectLabel.classList.add("project");
-            projectLabel.textContent = project.title;
-
-            const projectDate = document.createElement("div");
-            projectDate.classList.add("date");
-            projectDate.textContent = project.date;
-
-
-            newItem.appendChild(thumbnailContainer);
-            newItem.appendChild(projectLabel);   
-            newItem.appendChild(projectDate);   
-            
-            gridContainer.appendChild(newItem);
-           
+function fetchProject(){
+    fetch("http://localhost:3000/projects")
+        .then(response => response.json())
+        .then(projects => {
+            console.log(projects);
+    
+            projects.forEach(project => {
+                console.log(project.title);
+    
+                const newItem = document.createElement("a");
+                newItem.classList.add(`item`, `item-${project._id}`);
+                newItem.href = project.link;
+                newItem.target = "_blank";
+    
+                const thumbnailContainer = document.createElement("div");
+                thumbnailContainer.classList.add("thumbnail-container");
+    
+                const thumbnail = document.createElement("img");
+                thumbnail.classList.add("thumbnail");
+                thumbnail.src = project.image || "";
+                thumbnail.alt = project.title;
+    
+                thumbnailContainer.appendChild(thumbnail);
+    
+                const projectLabel = document.createElement("div");
+                projectLabel.classList.add("project");
+                projectLabel.textContent = project.title;
+    
+                const projectDate = document.createElement("div");
+                projectDate.classList.add("date");
+                projectDate.textContent = project.date_created + (" | — | ") + project.date_completed;
+    
+    
+                newItem.appendChild(thumbnailContainer);
+                newItem.appendChild(projectLabel);   
+                newItem.appendChild(projectDate);   
+                
+                gridContainer.appendChild(newItem);
+               
+            });
         });
-    });
+}
+
+fetchProject();
+
 
 
 const uploadBtn = document.getElementById("upload");
@@ -52,7 +57,6 @@ const uploadBox = document.querySelector(".upload-box");
 
 
 const submitBtn = document.getElementById("submit");
-
 const gridContainer = document.querySelector(".grid");
 
 //OPEN UPLOAD FORM//
@@ -76,58 +80,121 @@ minimizeBtn.addEventListener("click", () => {
     uploadBox.addEventListener("transitionend", onTransitionEnd);
 });
 
-const thumbnail = document.getElementById("imgThumbnail");
-const input = document.getElementById("image_form");
 
-input.addEventListener("change", () => {
-    if (thumbnail.src === ""){
-        thumbnail.style.display = "none";
-    }
-    else{
-        thumbnail.src = URL.createObjectURL(input.files[0]);
-        thumbnail.style.display = "block"
-    }
-});
+function updatePreview(){
+    const thumbnail = document.getElementById("imgThumbnail");
+    const imageInput = document.getElementById("image_form");
 
+    imageInput.addEventListener("change", () => {
+        if (thumbnail.src === ""){
+            thumbnail.style.display = "none";
+        }
+        else{
+            thumbnail.src = URL.createObjectURL(imageInput.files[0]);
+            thumbnail.style.display = "block"
+        }
+    });
+}
 
+updatePreview();
 
 //SUBMIT UPLOAD//
-let counter = document.querySelectorAll(".grid .item").length;
 
-submitBtn.addEventListener("click", () => {
-    const newItem = document.createElement("a");
-    newItem.classList.add(`item`, `item-${++counter}`);
-    newItem.href = "";
-    newItem.target = "_blank";
+submitBtn.addEventListener("click", async (e) => {
+    e.preventDefault();
 
-    const thumbnailContainer = document.createElement("div");
-    thumbnailContainer.classList.add("thumbnail-container");
-    
-    const thumbnail = document.createElement("img");
-    thumbnail.classList.add("thumbnail");
-    thumbnail.src = "thumbnails/placeholder.png";
-    thumbnail.alt = "project";
+    const title = document.getElementById("title_form").value;
+    let link = document.getElementById("github_form").value;
 
-    thumbnailContainer.appendChild(thumbnail);
+    if (!/^https?:\/\//i.test(link)) {
+    link = "https://" + link;
+    }
+
+    const date_created = `${document.getElementById("created_month").value}-${document.getElementById("created_day").value}-${document.getElementById("created_year").value}`;
+    const date_completed = `${document.getElementById("completed_month").value}-${document.getElementById("completed_day").value}-${document.getElementById("completed_year").value}`;
+
+    const imageInput = document.getElementById("image_form").files[0];
+    let imageURL = "thumbnails/placeholder.png"; 
+
+
+    if(imageInput){
+        imageURL = URL.createObjectURL(imageInput);
+    }
+
+    const projectData = {
+    title,
+    date_created,
+    date_completed,
+    image: imageURL,
+    link
+    };
+
+    try{
+        if (!title || !link || !date_created || !date_completed) {
+            alert("Please fill in all required fields.");
+            return; // stop the function
+        }
+        else{
+            const response = await fetch("http://localhost:3000/projects", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify(projectData)
+            });
     
-    const weekLabel = document.createElement("div");
-    weekLabel.classList.add("project");
-    weekLabel.textContent = "PLACEHOLDER TITLE";
+            const project = await response.json();
     
-    const projectDate = document.createElement("div");
-    projectDate.classList.add("date");
-    projectDate.textContent = "0000-00-00";
+            const newItem = document.createElement("a");
+            newItem.classList.add(`item`, `item-${project._id}`);
+            newItem.href = project.link;
+            newItem.target = "_blank";
     
-    newItem.appendChild(thumbnailContainer);
-    newItem.appendChild(weekLabel);
-    newItem.appendChild(projectDate);   
+            const thumbnailContainer = document.createElement("div");
+            thumbnailContainer.classList.add("thumbnail-container");
     
-    // newItem.innerHTML = `
-    //     <img class="thumbnail" src="" alt="project">
-    //     <div class="week">WEEK #${counter}</div>
-    // `;
+            const thumbnail = document.createElement("img");
+            thumbnail.classList.add("thumbnail");
+            thumbnail.src = project.image;
+            thumbnail.alt = project.title;
     
-    gridContainer.appendChild(newItem);
+            thumbnailContainer.appendChild(thumbnail);
+    
+            const projectLabel = document.createElement("div");
+            projectLabel.classList.add("project");
+            projectLabel.textContent = project.title;
+    
+            const projectDate = document.createElement("div");
+            projectDate.classList.add("date");
+            projectDate.textContent = project.date_created + (" | — | ") + project.date_completed;
+    
+    
+            newItem.appendChild(thumbnailContainer);
+            newItem.appendChild(projectLabel);   
+            newItem.appendChild(projectDate);   
+            
+            gridContainer.appendChild(newItem);
+    
+            document.getElementById("grid-form").reset();
+            ["created_month", "created_day", "created_year", "completed_month", "completed_day", "completed_year"].forEach(id => {
+                document.getElementById(id).selectedIndex = 0;
+            });  
+
+            const thumbnailPreview = document.getElementById("imgThumbnail");
+            thumbnailPreview.src = "";
+            thumbnailPreview.style.display = "none";
+
+            uploadBox.classList.remove("open");
+            buttonBox.style.display = "block";
+
+
+        }
+
+    }
+    catch (err){
+        console.error("Error adding project:", err);
+        alert("Failed to add project. Check console for details.");
+
+    }
+
 
 });
 

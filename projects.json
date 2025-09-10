@@ -2,14 +2,16 @@
   {
     "id": 1,
     "title": "Portfolio Website",
-    "date": "2025-08-28",
+    "date_created": "09-03-25",
+    "date_completed": "09-10-25",
     "image": "thumbnails/placeholder.png",
     "link": "https://github.com/cTayao/Projects-Compilation"
   },
   {
     "id": 2,
     "title": "Physic Simulator",
-    "date": "2025-09-04",
+    "date_created": "01-10-25",
+    "date_completed": "02-02-25",
     "image": "thumbnails/placeholder.png",
     "link": ""
   }
