@@ -13,6 +13,12 @@ const bcrypt = require("bcrypt");
 const app = express();
 const PORT = 3000;
 
+const path = require('path');
+
+// Serve frontend files from 'public' folder
+app.use(express.static(path.join(__dirname, 'public')));
+
+
 app.use(cors({
   origin: "http://localhost:3001"
 })); 
@@ -55,7 +61,7 @@ const upload = multer({
   }
 });
 
-mongoose.connect("mongodb://localhost:27017/myprojectsdb", {
+mongoose.connect(process.env.MONGODB_URI, {
   useNewUrlParser: true,
   useUnifiedTopology: true,
 })
@@ -127,9 +133,9 @@ app.post("/projects", authenticateToken, async (req, res) => {
 
 
 // test route
-app.get("/", (req, res) => {
-  res.send("Hello, backend is working + MongoDB ready!");
-});
+// app.get("/", (req, res) => {
+//   res.send("Hello, backend is working + MongoDB ready!");
+// });
 
 // start server
 app.listen(PORT, () => {

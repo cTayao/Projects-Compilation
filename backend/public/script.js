@@ -1,7 +1,7 @@
 
 //LOAD THE DATA IN JSON//
 function fetchProject(){
-    fetch("http://localhost:3000/projects")
+    fetch("/projects")
         .then(response => response.json())
         .then(projects => {
             console.log(projects);
@@ -129,7 +129,7 @@ submitBtn.addEventListener("click", async (e) => {
         const formData = new FormData();
         formData.append("image", imageInput);
 
-        const uploadRes = await fetch("http://localhost:3000/upload-image", {
+        const uploadRes = await fetch("/upload-image", {
             method: "POST",
             headers: {
                 "Authorization": `Bearer ${token}`
@@ -158,7 +158,7 @@ submitBtn.addEventListener("click", async (e) => {
             return;
         }
         else{
-            const response = await fetch("http://localhost:3000/projects", {
+            const response = await fetch("/projects", {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",
