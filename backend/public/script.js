@@ -107,7 +107,7 @@ submitBtn.addEventListener("click", async (e) => {
 
     if (!token) {
         alert("❌ You must log in first before submitting.");
-        window.location.href = "index.html";
+        window.location.href = "/login.html";
         return;
     }
 
