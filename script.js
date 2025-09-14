@@ -103,6 +103,13 @@ updatePreview();
 submitBtn.addEventListener("click", async (e) => {
     e.preventDefault();
 
+    const token = localStorage.getItem("token"); // 🔑 get token
+
+    if (!token) {
+        alert("❌ You must log in first before submitting.");
+        return;
+    }
+
     const title = document.getElementById("title_form").value;
     let link = document.getElementById("github_form").value;
 
@@ -115,10 +122,25 @@ submitBtn.addEventListener("click", async (e) => {
 
     const imageInput = document.getElementById("image_form").files[0];
     let imageURL = "thumbnails/placeholder.png"; 
+    let public_id = null;
 
 
     if(imageInput){
-        imageURL = URL.createObjectURL(imageInput);
+        const formData = new FormData();
+        formData.append("image", imageInput);
+
+        const uploadRes = await fetch("http://localhost:3000/upload-image", {
+            method: "POST",
+            headers: {
+                "Authorization": `Bearer ${token}`
+            },
+            body: formData
+        });
+
+
+        const uploadData = await uploadRes.json();
+        imageURL = uploadData.url;
+        public_id = uploadData.public_id;
     }
 
     const projectData = {
@@ -126,18 +148,22 @@ submitBtn.addEventListener("click", async (e) => {
     date_created,
     date_completed,
     image: imageURL,
+    public_id,  
     link
     };
 
     try{
         if (!title || !link || !date_created || !date_completed) {
             alert("Please fill in all required fields.");
-            return; // stop the function
+            return;
         }
         else{
             const response = await fetch("http://localhost:3000/projects", {
             method: "POST",
-            headers: { "Content-Type": "application/json" },
+            headers: {
+                "Content-Type": "application/json",
+                "Authorization": `Bearer ${token}` // <-- 🔐 here too
+            },
             body: JSON.stringify(projectData)
             });
     
